@@ -51,8 +51,271 @@
       </div>
     </div>
   </nav>
-    <h1 class="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+
+  <!-- Images Page -->
+  <div id="images-page" class="page-section">
+    <div class="py-16 px-4">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold mb-6">Image Gallery</h1>
+          <p class="text-gray-600 max-w-2xl mx-auto text-lg mb-8">
+            A curated collection of my photography and visual work
+          </p>
+
+          <!-- Category Filter -->
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button onclick="filterImages('All')" class="filter-btn px-6 py-2 rounded-lg transition-colors bg-blue-600 text-white" data-category="All">
+              All
+            </button>
+            <button onclick="filterImages('Concepts')" class="filter-btn px-6 py-2 rounded-lg transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200" data-category="Concepts">
+              Nature
+            </button>
+            <button onclick="filterImages('Artwork')" class="filter-btn px-6 py-2 rounded-lg transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200" data-category="Artwork">
+              Architecture
+            </button>
+            <button onclick="filterImages('Edits')" class="filter-btn px-6 py-2 rounded-lg transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200" data-category="Edits">
+              Abstract
+            </button>
+          </div>
+        </div>
+
+        <!-- Masonry Grid -->
+        <div class="masonry-grid" id="image-gallery">
+          <!-- Image items will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden items-center justify-center p-4" onclick="closeLightbox()">
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <div class="relative max-w-5xl max-h-full" onclick="event.stopPropagation()">
+        <img id="lightbox-image" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg">
+        <div class="absolute bottom-4 left-4 right-4 bg-black bg-opacity-75 text-white p-4 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 id="lightbox-title" class="text-xl font-semibold mb-1"></h3>
+              <div class="flex items-center gap-4 text-sm">
+                <span class="flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                  <span id="lightbox-likes"></span>
+                </span>
+                <span id="lightbox-category"></span>
+              </div>
+            </div>
+            <button class="flex items-center gap-2 bg-white text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+              </svg>
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Image gallery data
+    const images = [
+      {
+        id: 1,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/KING%20CONCEPT%20BOARD.png?raw=true',
+        title: 'Annointed King Concept Art',
+        category: 'Concepts',
+      },
+      {
+        id: 2,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/Concept1.png?raw=true',
+        title: 'Divine Eye Concept Art',
+        category: 'Concepts',
+      },
+      {
+        id: 3,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/Scene.png?raw=true',
+        title: 'Fantasy Scene Concept',
+        category: 'Concepts',
+      },
+      {
+        id: 4,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/Trinh_Photoshop.png?raw=true',
+        title: 'Fear and Hunger Termina Poster',
+        category: 'Edits',
+      },
+      {
+        id: 5,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/HUDexample.png?raw=true',
+        title: 'Boss HUD Mock Up',
+        category: 'Edits',
+      },
+      {
+        id: 6,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/Valorant%20concept.png%20final.png?raw=true',
+        title: 'Valorant Agent Concept',
+        category: 'Concepts',
+      },
+      {
+        id: 7,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/The%20rose.jpg2.jpg?raw=true',
+        title: 'The Rose "Sour" Concert Edit',
+        category: 'Edits',
+      },
+      {
+        id: 8,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/BIST.png?raw=true',
+        title: 'Spirit Tree Painting',
+        category: 'Artwork',
+      },
+      {
+        id: 9,
+        url: 'https://github.com/TrinhBen/TrinhFinalProject/blob/main/Images/MI%20332.png?raw=true',
+        title: 'TianXia Painting',
+        category: 'Artwork',
+      },
+    ];
+
+    let currentCategory = 'All';
+
+    // Navigation functions
+    function showPage(pageName) {
+      // Hide all pages
+      document.querySelectorAll('.page-section').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show selected page
+      document.getElementById(pageName + '-page').classList.add('active');
+      
+      // Update nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.dataset.page === pageName) {
+          link.classList.remove('text-gray-600');
+          link.classList.add('text-blue-600');
+        } else {
+          link.classList.add('text-gray-600');
+          link.classList.remove('text-blue-600');
+        }
+      });
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      
+      menu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
+
+    // Contact form handler
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      
+      const form = document.getElementById('contact-form');
+      const success = document.getElementById('form-success');
+      
+      // Show success message
+      form.classList.add('hidden');
+      success.classList.remove('hidden');
+      
+      // Reset after 3 seconds
+      setTimeout(() => {
+        form.reset();
+        form.classList.remove('hidden');
+        success.classList.add('hidden');
+      }, 3000);
+      
+      return false;
+    }
+
+    // Image gallery functions
+    function renderGallery(category) {
+      const gallery = document.getElementById('image-gallery');
+      const filteredImages = category === 'All' 
+        ? images 
+        : images.filter(img => img.category === category);
+      
+      gallery.innerHTML = filteredImages.map(image => `
+        <div class="masonry-item group cursor-pointer" onclick="openLightbox(${image.id})">
+          <div class="relative overflow-hidden rounded-lg bg-gray-100">
+            <img
+              src="${image.url}"
+              alt="${image.title}"
+              class="w-full h-auto group-hover:scale-110 transition-transform duration-300"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 class="text-lg font-semibold mb-1">${image.title}</h3>
+                <div class="flex items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    ${image.likes}
+                  </span>
+                  <span class="px-2 py-1 bg-white/20 rounded">
+                    ${image.category}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterImages(category) {
+      currentCategory = category;
+      renderGallery(category);
+      
+      // Update filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.remove('bg-gray-100', 'text-gray-700');
+          btn.classList.add('bg-blue-600', 'text-white');
+        } else {
+          btn.classList.add('bg-gray-100', 'text-gray-700');
+          btn.classList.remove('bg-blue-600', 'text-white');
+        }
+      });
+    }
+
+    function openLightbox(imageId) {
+      const image = images.find(img => img.id === imageId);
+      if (!image) return;
+      
+      document.getElementById('lightbox-image').src = image.url;
+      document.getElementById('lightbox-image').alt = image.title;
+      document.getElementById('lightbox-title').textContent = image.title;
+      document.getElementById('lightbox-likes').textContent = image.likes;
+      document.getElementById('lightbox-category').textContent = image.category;
+      
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    }
+
+    // Initialize gallery on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      renderGallery('All');
+    });
+  </script>
   </body>
 </html>
