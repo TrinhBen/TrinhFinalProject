@@ -193,32 +193,6 @@
           link.classList.remove('text-blue-600');
         }
       });
-
-    }
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const menuIcon = document.getElementById('menu-icon');
-      const closeIcon = document.getElementById('close-icon');
-      menu.classList.toggle('hidden');
-      menuIcon.classList.toggle('hidden');
-      closeIcon.classList.toggle('hidden');
-    }
-    // Contact form handler
-    function handleContactSubmit(event) {
-      event.preventDefault();
-      
-      const form = document.getElementById('contact-form');
-      const success = document.getElementById('form-success');
-      // Show success message
-      form.classList.add('hidden');
-      success.classList.remove('hidden');
-      // Reset after 3 seconds
-      setTimeout(() => {
-        form.reset();
-        form.classList.remove('hidden');
-        success.classList.add('hidden');
-      }, 3000);
-      return false;
     }
     // Image gallery functions
     function renderGallery(category) {
@@ -253,7 +227,6 @@
     function filterImages(category) {
       currentCategory = category;
       renderGallery(category);
-      
       // Update filter buttons
       document.querySelectorAll('.filter-btn').forEach(btn => {
         if (btn.dataset.category === category) {
