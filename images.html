@@ -259,6 +259,14 @@
     document.addEventListener('DOMContentLoaded', function() {
       renderGallery('All');
     });
+        function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      menu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
   </script>
   </body>
 </html>
