@@ -28,7 +28,6 @@
         <a href="home.html" class="text-gray-900 font-bold text-xl">
           Portfolio
         </a>
-
   <div>
         <!-- Desktop Navigation -->
         <div class="hidden md:flex space-x-8">
@@ -39,7 +38,6 @@
           <a href="images.html" class="nav-link text-gray-600 hover:text-gray-900 transition-colors" data-page="images">Images</a>
           <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900 transition-colors" data-page="contact">Contact</a>
         </div>
-        
         <!-- Mobile menu button -->
         <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
           <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +48,6 @@
           </svg>
         </button>
       </div>
-
       <!-- Mobile Navigation -->
       <div id="mobile-menu" class="hidden md:hidden py-4 space-y-2">
           <a href="home.html" class="nav-link text-gray-600 hover:text-gray-900 transition-colors" data-page="home">Home</a>
@@ -72,8 +69,6 @@
           <p class="text-gray-600 max-w-2xl mx-auto text-lg mb-8">
             A collection of visual media ranging from photoshop to concept art
           </p>
-
-          
           <!-- Category Filter -->
           <div class="flex flex-wrap justify-center gap-3 mb-8">
             <button onclick="filterImages('All')" class="filter-btn px-6 py-2 rounded-lg transition-colors bg-blue-600 text-white" data-category="All">
@@ -90,14 +85,12 @@
             </button>
           </div>
         </div>
-
         <!-- Masonry Grid -->
         <div class="masonry-grid" id="image-gallery">
           <!-- Image items will be dynamically added here -->
         </div>
       </div>
     </div>
-
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden items-center justify-center p-4" onclick="closeLightbox()">
       <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
@@ -123,7 +116,6 @@
       </div>
     </div>
   </div>
-
 <script>
     // Image gallery data
     const images = [
@@ -182,19 +174,15 @@
         category: 'Artwork',
       },
     ];
-
     let currentCategory = 'All';
-
     // Navigation functions
     function showPage(pageName) {
       // Hide all pages
       document.querySelectorAll('.page-section').forEach(page => {
         page.classList.remove('active');
       });
-      
       // Show selected page
       document.getElementById(pageName + '-page').classList.add('active');
-      
       // Update nav links
       document.querySelectorAll('.nav-link').forEach(link => {
         if (link.dataset.page === pageName) {
@@ -205,49 +193,40 @@
           link.classList.remove('text-blue-600');
         }
       });
-
       // Scroll to top
       window.scrollTo(0, 0);
     }
-
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       const menuIcon = document.getElementById('menu-icon');
       const closeIcon = document.getElementById('close-icon');
-      
       menu.classList.toggle('hidden');
       menuIcon.classList.toggle('hidden');
       closeIcon.classList.toggle('hidden');
     }
-
     // Contact form handler
     function handleContactSubmit(event) {
       event.preventDefault();
       
       const form = document.getElementById('contact-form');
       const success = document.getElementById('form-success');
-      
       // Show success message
       form.classList.add('hidden');
       success.classList.remove('hidden');
-      
       // Reset after 3 seconds
       setTimeout(() => {
         form.reset();
         form.classList.remove('hidden');
         success.classList.add('hidden');
       }, 3000);
-      
       return false;
     }
-
     // Image gallery functions
     function renderGallery(category) {
       const gallery = document.getElementById('image-gallery');
       const filteredImages = category === 'All' 
         ? images 
         : images.filter(img => img.category === category);
-      
       gallery.innerHTML = filteredImages.map(image => `
         <div class="masonry-item group cursor-pointer" onclick="openLightbox(${image.id})">
           <div class="relative overflow-hidden rounded-lg bg-gray-100">
@@ -272,7 +251,6 @@
         </div>
       `).join('');
     }
-
     function filterImages(category) {
       currentCategory = category;
       renderGallery(category);
@@ -288,28 +266,23 @@
         }
       });
     }
-
     function openLightbox(imageId) {
       const image = images.find(img => img.id === imageId);
       if (!image) return;
-      
       document.getElementById('lightbox-image').src = image.url;
       document.getElementById('lightbox-image').alt = image.title;
       document.getElementById('lightbox-title').textContent = image.title;
       document.getElementById('lightbox-likes').textContent = image.likes;
       document.getElementById('lightbox-category').textContent = image.category;
-      
       const lightbox = document.getElementById('lightbox');
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
     }
-
     function closeLightbox() {
       const lightbox = document.getElementById('lightbox');
       lightbox.classList.add('hidden');
       lightbox.classList.remove('flex');
     }
-
     // Initialize gallery on page load
     document.addEventListener('DOMContentLoaded', function() {
       renderGallery('All');
